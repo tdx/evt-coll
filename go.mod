@@ -1,4 +1,4 @@
-module github.com/tdx/evt-call
+module github.com/tdx/evt-coll
 
 go 1.15
 

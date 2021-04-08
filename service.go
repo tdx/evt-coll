@@ -3,7 +3,7 @@ package evtcoll
 import (
 	"sync"
 
-	"github.com/tdx/evt-call/api"
+	"github.com/tdx/evt-coll/api"
 )
 
 type svc struct {
