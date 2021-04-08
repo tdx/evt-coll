@@ -36,7 +36,7 @@ func (s *svc) addEvent(evt api.Event) {
 	go s.collectEvents(st, evt)
 }
 
-func (s *svc) delEvent(id int) {
+func (s *svc) delEvent(id uint64) {
 	s.evtStateStoreLock.Lock()
 	defer s.evtStateStoreLock.Unlock()
 
@@ -50,7 +50,7 @@ func (s *svc) events() int {
 	return len(s.evtStateStore)
 }
 
-func (s *svc) evtRule(id int) api.DelayRule {
+func (s *svc) evtRule(id uint64) api.DelayRule {
 	s.evtRulesLock.RLock()
 	defer s.evtRulesLock.RUnlock()
 

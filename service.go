@@ -9,9 +9,9 @@ import (
 type svc struct {
 	senderFunc        api.SenderFunc
 	evtRulesLock      sync.RWMutex
-	evtRules          map[int]api.DelayRule
+	evtRules          map[uint64]api.DelayRule
 	evtStateStoreLock sync.RWMutex
-	evtStateStore     map[int]*evtState
+	evtStateStore     map[uint64]*evtState
 }
 
 func New(sender api.SenderFunc) api.Collector {
@@ -20,13 +20,13 @@ func New(sender api.SenderFunc) api.Collector {
 	}
 	return &svc{
 		senderFunc:    sender,
-		evtRules:      make(map[int]api.DelayRule),
-		evtStateStore: make(map[int]*evtState),
+		evtRules:      make(map[uint64]api.DelayRule),
+		evtStateStore: make(map[uint64]*evtState),
 	}
 }
 
 //
-func (s *svc) RegisterRule(evtID int, rule api.DelayRule) {
+func (s *svc) RegisterRule(evtID uint64, rule api.DelayRule) {
 	s.evtRulesLock.Lock()
 	defer s.evtRulesLock.Unlock()
 

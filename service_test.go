@@ -11,11 +11,11 @@ import (
 )
 
 type evt struct {
-	id   int
+	id   uint64
 	data string
 }
 
-func (e *evt) ID() int {
+func (e *evt) ID() uint64 {
 	return e.id
 }
 

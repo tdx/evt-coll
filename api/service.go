@@ -3,7 +3,7 @@ package api
 import "time"
 
 type Event interface {
-	ID() int
+	ID() uint64
 	Data() interface{}
 	String() string
 }
@@ -32,7 +32,7 @@ type State struct {
 }
 
 type Collector interface {
-	RegisterRule(evtID int, rule DelayRule)
+	RegisterRule(evtID uint64, rule DelayRule)
 	Event(evt Event)
 	State() State
 }
