@@ -4,8 +4,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/tdx/evt-call/evtcoll"
-	"github.com/tdx/evt-call/evtcoll/api"
+	evtcoll "github.com/tdx/evt-call"
+	"github.com/tdx/evt-call/api"
 
 	"github.com/stretchr/testify/require"
 )

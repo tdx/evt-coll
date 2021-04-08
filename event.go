@@ -4,7 +4,7 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/tdx/evt-call/evtcoll/api"
+	"github.com/tdx/evt-call/api"
 )
 
 type evtState struct {
