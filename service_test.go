@@ -31,11 +31,11 @@ func Test(t *testing.T) {
 
 	var count uint64
 
-	sFunc := func(evt api.Event, n uint64) {
+	cbFunc := func(evt api.Event, n uint64) {
 		count += n
 	}
 
-	s := evtcoll.New(sFunc)
+	s := evtcoll.New(cbFunc)
 	s.RegisterRule(1, api.DelayRule{
 		Second: time.Duration(2 * time.Second),
 		Next:   time.Duration(4 * time.Second),

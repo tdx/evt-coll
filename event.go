@@ -65,7 +65,7 @@ func (s *svc) evtRule(id uint64) api.DelayRule {
 func (s *svc) collectEvents(
 	st *evtState, firstEvent api.Event) {
 
-	s.senderFunc(firstEvent, 1)
+	s.callback(firstEvent, 1)
 
 	for {
 		if st.isNext {
@@ -80,7 +80,7 @@ func (s *svc) collectEvents(
 			return
 		}
 
-		s.senderFunc(firstEvent, count)
+		s.callback(firstEvent, count)
 
 		st.isNext = true
 	}

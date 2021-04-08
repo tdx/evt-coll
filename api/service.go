@@ -8,7 +8,7 @@ type Event interface {
 	String() string
 }
 
-type SenderFunc func(
+type CallbackFunc func(
 	evt Event,
 	count uint64,
 )

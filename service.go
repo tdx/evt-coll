@@ -7,19 +7,19 @@ import (
 )
 
 type svc struct {
-	senderFunc        api.SenderFunc
+	callback          api.CallbackFunc
 	evtRulesLock      sync.RWMutex
 	evtRules          map[uint64]api.DelayRule
 	evtStateStoreLock sync.RWMutex
 	evtStateStore     map[uint64]*evtState
 }
 
-func New(sender api.SenderFunc) api.Collector {
-	if sender == nil {
+func New(cbFunc api.CallbackFunc) api.Collector {
+	if cbFunc == nil {
 		return nil
 	}
 	return &svc{
-		senderFunc:    sender,
+		callback:      cbFunc,
 		evtRules:      make(map[uint64]api.DelayRule),
 		evtStateStore: make(map[uint64]*evtState),
 	}
