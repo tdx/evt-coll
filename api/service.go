@@ -6,6 +6,7 @@ type Event interface {
 	ID() uint64
 	Data() interface{}
 	String() string
+	StageFormat(EventStageType) string
 }
 
 type EventStageType int

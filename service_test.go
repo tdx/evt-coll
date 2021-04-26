@@ -20,11 +20,15 @@ func (e *evt) ID() uint64 {
 }
 
 func (e *evt) Data() interface{} {
-	return e.data
+	return "not used in test"
 }
 
 func (e *evt) String() string {
-	return e.data
+	return "not used in test"
+}
+
+func (e *evt) StageFormat(evtStage api.EventStageType) string {
+	return "not used in test"
 }
 
 func Test(t *testing.T) {
