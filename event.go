@@ -8,9 +8,9 @@ import (
 )
 
 type evtState struct {
-	count  uint64
-	isNext bool
-	rule   api.DelayRule
+	count uint64
+	stage api.EventStageType
+	rule  api.DelayRule
 }
 
 //
@@ -65,13 +65,17 @@ func (s *svc) evtRule(id uint64) api.DelayRule {
 func (s *svc) collectEvents(
 	st *evtState, firstEvent api.Event) {
 
-	s.callback(firstEvent, 1)
+	st.stage = api.EventStageFirst
+	s.callback(st.stage, firstEvent, 1)
+
+	st.stage = api.EventStageSecond
 
 	for {
-		if st.isNext {
+		if st.stage == api.EventStageNext {
 			time.Sleep(st.rule.Next)
 		} else {
 			time.Sleep(st.rule.Second)
+			st.stage = api.EventStageNext
 		}
 
 		count := atomic.SwapUint64(&st.count, 0)
@@ -80,8 +84,6 @@ func (s *svc) collectEvents(
 			return
 		}
 
-		s.callback(firstEvent, count)
-
-		st.isNext = true
+		s.callback(st.stage, firstEvent, count)
 	}
 }

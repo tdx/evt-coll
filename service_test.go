@@ -31,7 +31,7 @@ func Test(t *testing.T) {
 
 	var count uint64
 
-	cbFunc := func(evt api.Event, n uint64) {
+	cbFunc := func(evtStage api.EventStageType, evt api.Event, n uint64) {
 		count += n
 	}
 

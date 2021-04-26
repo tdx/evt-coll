@@ -8,7 +8,16 @@ type Event interface {
 	String() string
 }
 
+type EventStageType int
+
+const (
+	EventStageFirst EventStageType = iota
+	EventStageSecond
+	EventStageNext
+)
+
 type CallbackFunc func(
+	evtStage EventStageType,
 	evt Event,
 	count uint64,
 )
