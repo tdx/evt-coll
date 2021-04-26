@@ -77,8 +77,6 @@ func (s *svc) collectEvents(
 			time.Sleep(st.rule.Next)
 		} else {
 			time.Sleep(st.rule.Second)
-			d = st.rule.Next
-			st.stage = api.EventStageNext
 		}
 
 		count := atomic.SwapUint64(&st.count, 0)
@@ -88,5 +86,10 @@ func (s *svc) collectEvents(
 		}
 
 		s.callback(st.stage, d, firstEvent, count)
+
+		if st.stage == api.EventStageSecond {
+			d = st.rule.Next
+			st.stage = api.EventStageNext
+		}
 	}
 }
