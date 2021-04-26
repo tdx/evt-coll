@@ -66,15 +66,18 @@ func (s *svc) collectEvents(
 	st *evtState, firstEvent api.Event) {
 
 	st.stage = api.EventStageFirst
-	s.callback(st.stage, firstEvent, 1)
+
+	s.callback(st.stage, time.Duration(time.Minute), firstEvent, 1)
 
 	st.stage = api.EventStageSecond
 
+	d := st.rule.Second
 	for {
 		if st.stage == api.EventStageNext {
 			time.Sleep(st.rule.Next)
 		} else {
 			time.Sleep(st.rule.Second)
+			d = st.rule.Next
 			st.stage = api.EventStageNext
 		}
 
@@ -84,6 +87,6 @@ func (s *svc) collectEvents(
 			return
 		}
 
-		s.callback(st.stage, firstEvent, count)
+		s.callback(st.stage, d, firstEvent, count)
 	}
 }

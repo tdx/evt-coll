@@ -6,7 +6,7 @@ type Event interface {
 	ID() uint64
 	Data() interface{}
 	String() string
-	StageFormat(EventStageType) string
+	StageFormat(stage EventStageType, duration time.Duration) string
 }
 
 type EventStageType int
@@ -19,6 +19,7 @@ const (
 
 type CallbackFunc func(
 	evtStage EventStageType,
+	duration time.Duration,
 	evt Event,
 	count uint64,
 )

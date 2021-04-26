@@ -27,7 +27,10 @@ func (e *evt) String() string {
 	return "not used in test"
 }
 
-func (e *evt) StageFormat(evtStage api.EventStageType) string {
+func (e *evt) StageFormat(
+	evtStage api.EventStageType,
+	durtaion time.Duration) string {
+
 	return "not used in test"
 }
 
@@ -35,7 +38,11 @@ func Test(t *testing.T) {
 
 	var count uint64
 
-	cbFunc := func(evtStage api.EventStageType, evt api.Event, n uint64) {
+	cbFunc := func(
+		evtStage api.EventStageType,
+		duration time.Duration,
+		evt api.Event, n uint64) {
+
 		count += n
 	}
 
