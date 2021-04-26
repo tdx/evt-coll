@@ -47,3 +47,14 @@ type Collector interface {
 	Event(evt Event)
 	State() State
 }
+
+func (e EventStageType) String() string {
+	switch e {
+	case EventStageFirst:
+		return "first"
+	case EventStageSecond:
+		return "second"
+	default:
+		return "next"
+	}
+}
