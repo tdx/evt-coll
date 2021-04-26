@@ -22,11 +22,9 @@ func (s *svc) addEvent(evt api.Event) {
 
 	if ok {
 		atomic.AddUint64(&st.count, 1)
-		if evt.Code() != 0 {
-			s.evtStateStoreLock.Lock()
-			st.codes[evt.Code()]++
-			s.evtStateStoreLock.Unlock()
-		}
+		s.evtStateStoreLock.Lock()
+		st.codes[evt.Code()]++
+		s.evtStateStoreLock.Unlock()
 		return
 	}
 
@@ -36,10 +34,6 @@ func (s *svc) addEvent(evt api.Event) {
 	st = &evtState{
 		rule:  s.evtRule(evt.ID()),
 		codes: make(map[int]int),
-	}
-
-	if evt.Code() != 0 {
-		st.codes[evt.Code()]++
 	}
 
 	s.evtStateStore[evt.ID()] = st
@@ -80,9 +74,10 @@ func (s *svc) collectEvents(
 
 	s.callback(st.stage, time.Duration(time.Minute), firstEvent, 1, nil)
 
+	// second stage
+	d := st.rule.Second
 	st.stage = api.EventStageSecond
 
-	d := st.rule.Second
 	for {
 		if st.stage == api.EventStageNext {
 			time.Sleep(st.rule.Next)
@@ -99,25 +94,21 @@ func (s *svc) collectEvents(
 		s.callback(st.stage, d, firstEvent, count, st.codesCopy(s))
 
 		if st.stage == api.EventStageSecond {
+			// next stage
 			d = st.rule.Next
 			st.stage = api.EventStageNext
 		}
 	}
 }
 
+// TODO: atomic swap
 func (st *evtState) codesCopy(s *svc) map[int]int {
 
-	s.evtStateStoreLock.RLock()
-	defer s.evtStateStoreLock.RUnlock()
+	s.evtStateStoreLock.Lock()
+	defer s.evtStateStoreLock.Unlock()
 
-	if len(st.codes) == 0 {
-		return nil
-	}
+	old := st.codes
+	st.codes = make(map[int]int)
 
-	m := make(map[int]int, len(st.codes))
-	for k, v := range st.codes {
-		m[k] = v
-	}
-
-	return m
+	return old
 }
