@@ -4,9 +4,12 @@ import "time"
 
 type Event interface {
 	ID() uint64
+	Code() int
 	Data() interface{}
 	String() string
-	StageFormat(stage EventStageType, duration time.Duration) string
+	StageFormat(
+		stage EventStageType,
+		duration time.Duration) string
 }
 
 type EventStageType int
@@ -22,6 +25,7 @@ type CallbackFunc func(
 	duration time.Duration,
 	evt Event,
 	count uint64,
+	codes map[int]int,
 )
 
 // Collector counts events by delay rule.

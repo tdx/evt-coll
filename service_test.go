@@ -19,6 +19,10 @@ func (e *evt) ID() uint64 {
 	return e.id
 }
 
+func (e *evt) Code() int {
+	return 0
+}
+
 func (e *evt) Data() interface{} {
 	return "not used in test"
 }
@@ -41,7 +45,9 @@ func Test(t *testing.T) {
 	cbFunc := func(
 		evtStage api.EventStageType,
 		duration time.Duration,
-		evt api.Event, n uint64) {
+		evt api.Event,
+		n uint64,
+		codes map[int]int) {
 
 		count += n
 	}
